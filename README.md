@@ -1,0 +1,3 @@
+#Sova Lineup Discord Bot
+
+More coming soon...
