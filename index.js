@@ -7,6 +7,17 @@ const fs = require('node:fs');
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// Logic for event handler, dynamically retrieves events in events folder
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
 	console.log('Ready!');
