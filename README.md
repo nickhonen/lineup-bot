@@ -1,3 +1,3 @@
-#Sova Lineup Discord Bot
+# Sova Lineup Discord Bot
 
 More coming soon...
