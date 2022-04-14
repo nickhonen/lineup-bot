@@ -1,6 +1,8 @@
 // Require the necessary discord.js classes
-const { Client, Intents } = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./utils/config.js');
+// Node's file system module
+const fs = require('node:fs');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -9,6 +11,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.once('ready', () => {
 	console.log('Ready!');
 });
+
 
 // Listens for interactions, don't use if/else for this just a placeholder
 client.on('interactionCreate', async interaction => {
