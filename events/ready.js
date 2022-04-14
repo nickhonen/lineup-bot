@@ -1,3 +1,7 @@
+// client.once('ready', () => {
+// 	console.log('Ready!');
+// });
+
 module.exports = {
 	name: 'ready',
 	once: true,
