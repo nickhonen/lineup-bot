@@ -1,8 +1,5 @@
 // Listens for interactions
 
-	
-
-
 module.exports = {
 	name: 'interactionCreate',
     // might need to make this an async somehow, potentially look that up

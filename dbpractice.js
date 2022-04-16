@@ -92,3 +92,7 @@ client.on('interactionCreate', async interaction => {
         return interaction.reply('Tag deleted.');
     }
 });
+
+module.exports = {
+	sequelize, Tags
+}
