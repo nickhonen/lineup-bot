@@ -43,7 +43,7 @@ client.on('interactionCreate', async interaction => {
 				description: tagDescription,
 				username: interaction.user.username,
 			});
-
+			sequelize.close();
 			return interaction.reply(`Tag ${tag.name} added.`);
 		}
 		catch (error) {
@@ -54,45 +54,45 @@ client.on('interactionCreate', async interaction => {
 			return interaction.reply('Something went wrong with adding a tag.');
 		}
 	}
-    else if (commandName === 'tag') {
-        const tagName = interaction.options.getString('name');
-    
-        // equivalent to: SELECT * FROM tags WHERE name = 'tagName' LIMIT 1;
-        const tag = await Tags.findOne({ where: { name: tagName } });
-    
-        if (tag) {
-            // equivalent to: UPDATE tags SET usage_count = usage_count + 1 WHERE name = 'tagName';
-            tag.increment('usage_count');
-    
-            return interaction.reply(tag.get('description'));
-        }
-    
-        return interaction.reply(`Could not find tag: ${tagName}`);
-    }
-    else if (commandName === 'edittag') {
-        const tagName = interaction.options.getString('name');
-        const tagDescription = interaction.options.getString('description');
-    
-        // equivalent to: UPDATE tags (description) values (?) WHERE name='?';
-        const affectedRows = await Tags.update({ description: tagDescription }, { where: { name: tagName } });
-    
-        if (affectedRows > 0) {
-            return interaction.reply(`Tag ${tagName} was edited.`);
-        }
-    
-        return interaction.reply(`Could not find a tag with name ${tagName}.`);
-    }
-    else if (commandName === 'deletetag') {
-        const tagName = interaction.options.getString('name');
-        // equivalent to: DELETE from tags WHERE name = ?;
-        const rowCount = await Tags.destroy({ where: { name: tagName } });
-    
-        if (!rowCount) return interaction.reply('That tag doesn\'t exist.');
-    
-        return interaction.reply('Tag deleted.');
-    }
+	else if (commandName === 'tag') {
+		const tagName = interaction.options.getString('name');
+
+		// equivalent to: SELECT * FROM tags WHERE name = 'tagName' LIMIT 1;
+		const tag = await Tags.findOne({ where: { name: tagName } });
+
+		if (tag) {
+			// equivalent to: UPDATE tags SET usage_count = usage_count + 1 WHERE name = 'tagName';
+			tag.increment('usage_count');
+
+			return interaction.reply(tag.get('description'));
+		}
+
+		return interaction.reply(`Could not find tag: ${tagName}`);
+	}
+	else if (commandName === 'edittag') {
+		const tagName = interaction.options.getString('name');
+		const tagDescription = interaction.options.getString('description');
+
+		// equivalent to: UPDATE tags (description) values (?) WHERE name='?';
+		const affectedRows = await Tags.update({ description: tagDescription }, { where: { name: tagName } });
+
+		if (affectedRows > 0) {
+			return interaction.reply(`Tag ${tagName} was edited.`);
+		}
+
+		return interaction.reply(`Could not find a tag with name ${tagName}.`);
+	}
+	else if (commandName === 'deletetag') {
+		const tagName = interaction.options.getString('name');
+		// equivalent to: DELETE from tags WHERE name = ?;
+		const rowCount = await Tags.destroy({ where: { name: tagName } });
+
+		if (!rowCount) return interaction.reply('That tag doesn\'t exist.');
+
+		return interaction.reply('Tag deleted.');
+	}
 });
 
 module.exports = {
-	sequelize, Tags
-}
+	sequelize, Tags,
+};
