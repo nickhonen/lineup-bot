@@ -5,8 +5,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addtag')
 		.setDescription('Creates a new tag')
-        .addStringOption(option => option.setName('name').setDescription('Enter a tag name'))
-        .addStringOption(option => option.setName('description').setDescription('Tag description')),     
+		.addStringOption(option => option.setName('name').setDescription('Enter a tag name'))
+		.addStringOption(option => option.setName('description').setDescription('Tag description')),     
 	async execute(interaction) {
 		const tagName = interaction.options.getString('name');
 		const tagDescription = interaction.options.getString('description');
