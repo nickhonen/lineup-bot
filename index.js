@@ -1,6 +1,7 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./utils/config.js');
+const db = require('./utils/dbInit')
 const fs = require('node:fs');
 
 // Create a new client instance
@@ -26,6 +27,8 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+
 
 // Login to Discord with your client's token
 client.login(token);
