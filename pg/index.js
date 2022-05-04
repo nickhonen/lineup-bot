@@ -1,37 +1,29 @@
-const { Pool, Client } = require('pg');
+const { Pool } = require('pg');
 
-const credentials = {
-	user: 'nickhonen',
-	host: 'localhost',
-	database: 'lineups',
-	port: 5432,
-};
+// works without connection information bc it uses env variables
+const pool = new Pool({
+  user: 'nickhonen',
+  host: 'localhost',
+  database: 'lineups',
+  // password: 'secretpassword',
+  port: 5432,
+})
 
-// Connect with connection pool
+// the pool will emit an error on behalf of any idle clients
+// it contains if a backend error or network partition happens
+// pool.on('error', (err, client) => {
+//   console.error('Unexpected error on idle client', err)
+//   process.exit(-1)
+// })
 
-async function poolDemo() {
-	const pool = new Pool(credentials);
-	const now = await pool.query('SELECT NOW()');
-	await pool.end();
+// test query
+pool.query('SELECT NOW()', (err, res) => {
+  console.log(err, res)
+  pool.end()
+})
 
-	return now;
-}
-
-// Connect with a client.
-
-async function clientDemo() {
-	const client = new Client(credentials);
-	await client.connect();
-	const now = await client.query('SELECT NOW()');
-	await client.end();
-
-	return now;
-}
-
-const pool = new Pool()
-
+// From "Express with async/await" part of guide.
 module.exports = {
-	query: (text, params, callback) => {
-		return pool.query(text, params, callback)
-	}
+  query: (text, params) => pool.query(text, params),
 }
+
