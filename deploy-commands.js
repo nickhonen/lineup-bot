@@ -13,6 +13,17 @@ for (const file of commandFiles) {
 
 const rest = new REST({ version: '9' }).setToken(token);
 
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-	.then(() => console.log('Successfully registered application commands.'))
-	.catch(console.error);
+(async () => {
+	try {
+		console.log('started refreshing applicaton slash commands');
+		
+		await rest.put(Routes.applicationGuildCommands(clientId, guildId), 
+			{ body: commands },
+		);
+
+		console.log('Successfully reloaded app slash commands.');
+
+		} catch (error) {
+			console.error(error);
+		}
+	})();
